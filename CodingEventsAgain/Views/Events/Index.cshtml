@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<a asp-controller="Events" asp-action="Add">Add Event</a>
+
+<h1>Events</h1>
+
+<table>
+    <tr>
+        <th>Event Name</th>
+        <th>&nbsp;&nbsp;&nbsp;Description</th>
+    </tr>
+    @for(int i=0; i<ViewBag.events.Count; i++)
+        {<tr>
+            <td>@ViewBag.events[i]</td>
+            <td>&nbsp;&nbsp;&nbsp;@ViewBag.descriptions[i]</td>
+        </tr>}
+</table>
