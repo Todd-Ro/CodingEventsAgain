@@ -13,9 +13,9 @@
         <th>Event Name</th>
         <th>&nbsp;&nbsp;&nbsp;Description</th>
     </tr>
-    @for(int i=0; i<ViewBag.events.Count; i++)
+    @foreach (Event evt in ViewBag.eventObjects)
         {<tr>
-            <td>@ViewBag.events[i]</td>
-            <td>&nbsp;&nbsp;&nbsp;@ViewBag.descriptions[i]</td>
+            <td>@evt.Name</td>
+            <td>&nbsp;&nbsp;&nbsp;@evt.Description</td>
         </tr>}
 </table>

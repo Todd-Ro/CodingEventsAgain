@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CodingEventsAgain.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace CodingEventsAgain.Controllers
@@ -8,6 +9,7 @@ namespace CodingEventsAgain.Controllers
         static private List<string> EventList;
         static private Dictionary<string, string> EventDict;
         static private List<string> DescriptionsOrdered;
+        static private List<Event> EventObjList;
 
         public static void initializeEventList()
         {
@@ -21,6 +23,8 @@ namespace CodingEventsAgain.Controllers
                     "GlobalHack Intro to Coding Workshop"
                 });
             }
+
+            
         }
 
         public static void initializeEventDict()
@@ -32,6 +36,15 @@ namespace CodingEventsAgain.Controllers
                     "Helps prepare for coding in the new year");
                 EventDict.Add("Women in Coding", "Discussion of History");
                 EventDict.Add("GlobalHack Intro to Coding Workshop", "Learning resource for young people");
+            }
+
+            if (EventObjList is null)
+            {
+                EventObjList = new List<Event>();
+                foreach (string eventName in EventDict.Keys)
+                {
+                    EventObjList.Add(new Event(eventName, EventDict[eventName]));
+                }
             }
         }
 
@@ -51,6 +64,7 @@ namespace CodingEventsAgain.Controllers
             initializeEventDict();
             ViewBag.events = EventList;
             ViewBag.descriptions = updateDescriptionsOrdered();
+            ViewBag.eventObjects = EventObjList;
             return View();
         }
 
@@ -68,6 +82,7 @@ namespace CodingEventsAgain.Controllers
             initializeEventDict();
             EventList.Add(eventName);
             EventDict.Add(eventName, eventDescription);
+            EventObjList.Add(new Event(eventName, eventDescription));
 
             return Redirect("/Events");
         }
