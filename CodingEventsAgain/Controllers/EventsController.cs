@@ -7,12 +7,12 @@ namespace CodingEventsAgain.Controllers
 {
     public class EventsController : Controller
     {
-        static private List<string> EventList;
+        //static private List<string> EventList;
+        //static private List<string> DescriptionsOrdered;
         static private Dictionary<string, string> EventDict;
-        static private List<string> DescriptionsOrdered;
         //static private List<Event> EventObjList;
 
-        public static void initializeEventList()
+        /*public static void initializeEventList()
         {
             if (EventList is null)
             {
@@ -26,7 +26,7 @@ namespace CodingEventsAgain.Controllers
             }
 
             
-        }
+        }*/
 
         public static void initializeEventDict()
         {
@@ -52,7 +52,7 @@ namespace CodingEventsAgain.Controllers
             }
         }
 
-        public static List<string> updateDescriptionsOrdered()
+        /*public static List<string> updateDescriptionsOrdered()
         {
             DescriptionsOrdered = new List<string>();
             foreach(string evName in EventList)
@@ -60,11 +60,11 @@ namespace CodingEventsAgain.Controllers
                 DescriptionsOrdered.Add(EventDict[evName]);
             }
             return DescriptionsOrdered;
-        }
+        }*/
 
         public IActionResult Index()
         {
-            initializeEventList();
+            //initializeEventList();
             initializeEventDict();
             //ViewBag.events = EventList;
             //ViewBag.descriptions = updateDescriptionsOrdered();
@@ -83,14 +83,36 @@ namespace CodingEventsAgain.Controllers
         [Route("/Events/Add")]
         public IActionResult NewEvent(string eventName, string eventDescription)
         {
-            initializeEventList();
+            //initializeEventList();
             initializeEventDict();
-            EventList.Add(eventName);
+            //EventList.Add(eventName);
             EventDict.Add(eventName, eventDescription);
             //EventObjList.Add(new Event(eventName, eventDescription));
             EventData.Add(new Event(eventName, eventDescription));
 
             return Redirect("/Events");
         }
+
+        [HttpGet]
+        public IActionResult Delete()
+        {
+            ViewBag.eventObjects = EventData.GetAll();
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int[] eventIds)
+        {
+            foreach (int eventId in eventIds)
+            {
+                EventData.Remove(eventId);
+            }
+
+            return Redirect("/Events");
+        }
+
+
+
     }
 }
