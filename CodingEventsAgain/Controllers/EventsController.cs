@@ -1,4 +1,5 @@
-﻿using CodingEventsAgain.Models;
+﻿using CodingEventsAgain.Data;
+using CodingEventsAgain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -9,7 +10,7 @@ namespace CodingEventsAgain.Controllers
         static private List<string> EventList;
         static private Dictionary<string, string> EventDict;
         static private List<string> DescriptionsOrdered;
-        static private List<Event> EventObjList;
+        //static private List<Event> EventObjList;
 
         public static void initializeEventList()
         {
@@ -38,12 +39,15 @@ namespace CodingEventsAgain.Controllers
                 EventDict.Add("GlobalHack Intro to Coding Workshop", "Learning resource for young people");
             }
 
-            if (EventObjList is null)
+            List<Event> checkList = EventData.GetAll();
+            if (checkList is null)
             {
-                EventObjList = new List<Event>();
+                //EventObjList = new List<Event>();
                 foreach (string eventName in EventDict.Keys)
                 {
-                    EventObjList.Add(new Event(eventName, EventDict[eventName]));
+                    Event e = new Event(eventName, EventDict[eventName]);
+                    //EventObjList.Add(e);
+                    EventData.Add(e);
                 }
             }
         }
@@ -62,9 +66,10 @@ namespace CodingEventsAgain.Controllers
         {
             initializeEventList();
             initializeEventDict();
-            ViewBag.events = EventList;
-            ViewBag.descriptions = updateDescriptionsOrdered();
-            ViewBag.eventObjects = EventObjList;
+            //ViewBag.events = EventList;
+            //ViewBag.descriptions = updateDescriptionsOrdered();
+            //ViewBag.eventObjects = EventObjList;
+            ViewBag.eventObjects = EventData.GetAll();
             return View();
         }
 
@@ -82,7 +87,8 @@ namespace CodingEventsAgain.Controllers
             initializeEventDict();
             EventList.Add(eventName);
             EventDict.Add(eventName, eventDescription);
-            EventObjList.Add(new Event(eventName, eventDescription));
+            //EventObjList.Add(new Event(eventName, eventDescription));
+            EventData.Add(new Event(eventName, eventDescription));
 
             return Redirect("/Events");
         }

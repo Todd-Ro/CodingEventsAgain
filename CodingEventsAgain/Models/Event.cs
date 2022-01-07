@@ -4,10 +4,14 @@
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public int Uid { get; }
+        static private int nextId = 1;
 
         public Event(string name)
         {
             Name = name;
+            Uid = nextId;
+            nextId++;
         }
 
         public Event(string name, string description): this(name)
