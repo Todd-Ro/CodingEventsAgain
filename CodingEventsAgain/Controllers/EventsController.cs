@@ -9,8 +9,9 @@ namespace CodingEventsAgain.Controllers
     {
         //static private List<string> EventList;
         //static private List<string> DescriptionsOrdered;
-        static private Dictionary<string, string> EventDict;
         //static private List<Event> EventObjList;
+
+        
 
         /*public static void initializeEventList()
         {
@@ -28,30 +29,6 @@ namespace CodingEventsAgain.Controllers
             
         }*/
 
-        public static void initializeEventDict()
-        {
-            if (EventDict is null)
-            {
-                EventDict = new Dictionary<string, string>();
-                EventDict.Add("Virtual Coding Conference", 
-                    "Helps prepare for coding in the new year");
-                EventDict.Add("Women in Coding", "Discussion of History");
-                EventDict.Add("GlobalHack Intro to Coding Workshop", "Learning resource for young people");
-            }
-
-            List<Event> checkList = EventData.GetAll();
-            if (checkList is null)
-            {
-                //EventObjList = new List<Event>();
-                foreach (string eventName in EventDict.Keys)
-                {
-                    Event e = new Event(eventName, EventDict[eventName]);
-                    //EventObjList.Add(e);
-                    EventData.Add(e);
-                }
-            }
-        }
-
         /*public static List<string> updateDescriptionsOrdered()
         {
             DescriptionsOrdered = new List<string>();
@@ -65,7 +42,7 @@ namespace CodingEventsAgain.Controllers
         public IActionResult Index()
         {
             //initializeEventList();
-            initializeEventDict();
+            EventData.InitializeEventDict();
             //ViewBag.events = EventList;
             //ViewBag.descriptions = updateDescriptionsOrdered();
             //ViewBag.eventObjects = EventObjList;
@@ -81,14 +58,18 @@ namespace CodingEventsAgain.Controllers
 
         [HttpPost]
         [Route("/Events/Add")]
-        public IActionResult NewEvent(string eventName, string eventDescription)
+        public IActionResult NewEvent(
+            //string name, string description
+            Event newEvent
+            )
         {
             //initializeEventList();
-            initializeEventDict();
+            EventData.InitializeEventDict();
             //EventList.Add(eventName);
-            EventDict.Add(eventName, eventDescription);
+            //EventDict.Add(eventName, eventDescription);
             //EventObjList.Add(new Event(eventName, eventDescription));
-            EventData.Add(new Event(eventName, eventDescription));
+            //EventData.Add(new Event(eventName, eventDescription));
+            EventData.Add(newEvent);
 
             return Redirect("/Events");
         }
