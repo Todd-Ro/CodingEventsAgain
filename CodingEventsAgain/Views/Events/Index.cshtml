@@ -13,15 +13,18 @@
     <tr>
         <th>Event Name</th>
         <th>&nbsp;&nbsp;&nbsp;Description</th>
+        <th>Link to Edit</th>
     </tr>
     @foreach (Event evt in ViewBag.eventObjects)
         {<tr>
             <td>@evt.Name</td>
             <td>&nbsp;&nbsp;&nbsp;@evt.Description</td>
+            <td><a asp-controller="Events" asp-action="Edit"
+            asp-route-eventId="@evt.Uid">&nbsp;&nbsp;&nbsp;Edit Event</a></td>
         </tr>}
 </table>
 
 <br />
 <br />
 
-<a asp-controller="Events" asp-action="Delete">Delete Event</a>
+<a asp-controller="Events" asp-action="Delete">Delete an Event</a>

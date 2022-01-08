@@ -53,6 +53,7 @@ namespace CodingEventsAgain.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            EventData.InitializeEventDict();
             return View();
         }
 
@@ -89,6 +90,30 @@ namespace CodingEventsAgain.Controllers
             {
                 EventData.Remove(eventId);
             }
+
+            return Redirect("/Events");
+        }
+
+        //Method to display edit form
+        [HttpGet]
+        [Route("/Events/Edit/{eventId?}")]
+        public IActionResult Edit(int eventId)
+        {
+            Event eventToEdit = EventData.GetById(eventId);
+            ViewBag.eventToEdit = eventToEdit;
+            ViewBag.passedTitle = $"Edit Event {eventToEdit.Name} (id={eventId})";
+
+            return View();
+        }
+
+        //Method to process edit form
+        [HttpPost]
+        [Route("/Events/Edit")]
+        public IActionResult SubmitEditEventForm(int eventId, string name, string description)
+        {
+            Event eventToEdit = EventData.GetById(eventId);
+            eventToEdit.Name = name;
+            eventToEdit.Description = description;
 
             return Redirect("/Events");
         }
